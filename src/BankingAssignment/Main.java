@@ -23,21 +23,20 @@ public class Main {
 		OnlineBanking onlineBanking = new OnlineBanking();
 
 		System.out.println("Which operation to perform(use upper or lower cases): ATM / Online Banking: OB");
-		operation = sc.nextLine();
+		operation = sc.next();
 		if (operation.equalsIgnoreCase("ATM")) {
 			for (int i = 0; i < 3; i++) {
 				counter++;
 				System.out.println(counter + " Enter Card Number");
-				userId = sc.next();
+				userId = "999000888";
 				System.out.println("Enter Pin");
-				pin = sc.next();
+				pin = "123@$";
 				atm.userIdentification(userId, pin);
 				if (atm.isValid == true) {
 					while (operationContinue) { // While condition Starts here
 						System.out.println("\nAccount Holder name: " + person.getAccountHolderName());
 						System.out.println("Account  number: " + person.getBankAccountNo());
-						System.out.println(
-								"Total funds Avaliable: " + (atm.getCheckingBalance() + atm.getSavingBalance()));
+						System.out.println("Total funds Avaliable: " + (atm.getCurrentBalance()));
 
 						System.out.println(
 								"\nChoose an operation:FOR deposit: D / withdraw: W / fund Transfer: FT / user Identification: UI");
@@ -46,22 +45,18 @@ public class Main {
 						case "D":
 							System.out.println("Enter money to deposit");
 							moneyDepositWithdrawTransfer = sc.nextDouble();
-							atm.deposit(moneyDepositWithdrawTransfer);
 							System.out.println("Balance is: " + atm.deposit(moneyDepositWithdrawTransfer));
 							break;
 
 						case "W":
+
 							System.out.println("Enter money to withdraw");
 							moneyDepositWithdrawTransfer = sc.nextDouble();
 							atm.getDailyWithdrawLimit(moneyDepositWithdrawTransfer);
 							if (atm.isValid == true) {
 								atm.withdraw(moneyDepositWithdrawTransfer);
-								if (atm.isMoney == true) {
-									System.out.println("New Balance is: " + atm.withdraw(moneyDepositWithdrawTransfer));
-								} else if (atm.isMoney == false) {
-									System.out.println(atm.withdraw(moneyDepositWithdrawTransfer));
-									break;
-								}
+								System.out.println("New Balance is: " + atm.withdraw(moneyDepositWithdrawTransfer));
+
 							} else if (atm.isValid == false) {
 								System.out.println("Withdrwal limit is: " + atm.getlimit());
 							}
@@ -69,12 +64,7 @@ public class Main {
 							break;
 
 						case "FT":
-							System.out.println("Checking Balance is: " + atm.getCheckingBalance());
-							System.out.println("Saving Balance is: " + atm.getSavingBalance());
-							System.out.println("Enter the amount to transfer from Checking to saving");
-							moneyDepositWithdrawTransfer = sc.nextDouble();
-							atm.setSavingBalance(moneyDepositWithdrawTransfer);
-							System.out.println("Saving balance: " + atm.getSavingBalance());
+
 							break;
 
 						case "UI":

@@ -12,9 +12,11 @@ public abstract class BankingRules extends Person {
 	public double getDailyWithdrawLimit(double dailyWithdrwal) { 	// need to be fixed
 		if(dailyWithdrwal < dailyWithdrawLimit) {
 			isValid = true;
-			return dailyWithdrawLimit;
+			return dailyWithdrwal;
+		}else {
+			isValid = false;
 		}
-		return 0;
+		return dailyWithdrawLimit;
 	}
 	
 	public double getlimit() {

@@ -9,6 +9,7 @@ public class Atm extends BankingRules implements StandardProcess {
 	boolean isValid;
 	private String validPassword = "123@$"; // valid password to compare string
 
+
 	public String getCardNum() {
 		return cardNum;
 	}
@@ -18,24 +19,24 @@ public class Atm extends BankingRules implements StandardProcess {
 	}
 
 	@Override
-	public double deposit(double moneyDeposit) { // setter for Checking Balance
-		
-		return 0;
+	public double deposit(double moneyDeposit) { // setter for total fund
+		setTotalFund(moneyDeposit);
+		return currentBalance;
 	}
 
 	@Override
 	public double withdraw(double moneyWithdraw) {
-		if (moneyWithdraw < getCheckingBalance()) {
+		if (moneyWithdraw < currentBalance) {
 			isMoney = true;
-			return getCheckingBalance() - moneyWithdraw;
-		} else if (moneyWithdraw > getCheckingBalance()) {
+			return currentBalance - moneyWithdraw;
+		} else if (moneyWithdraw > currentBalance) {
 			isMoney = false;
-			System.out.println("Not enough balance: " + getCheckingBalance());
+			System.out.println("Not enough balance: " + currentBalance);
 		}
 		return 0;
 	}
 
-	@Override
+	@Override	
 	public String userIdentification(String cardNum, String password) { // Verify Pin for ATM
 		this.cardNum = cardNum;
 
