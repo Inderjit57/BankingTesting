@@ -19,8 +19,8 @@ public class Main {
 		int counter = 0;
 
 		Person person = new Person();
-		Atm atm = new Atm();
-		OnlineBanking onlineBanking = new OnlineBanking();
+//		Atm atm = new Atm();
+//		OnlineBanking onlineBanking = new OnlineBanking();
 
 		System.out.println("Which operation to perform(use upper or lower cases): ATM / Online Banking: OB");
 		operation = sc.next();
@@ -31,12 +31,12 @@ public class Main {
 				userId = "999000888";
 				System.out.println("Enter Pin");
 				pin = "123@$";
-				atm.userIdentification(userId, pin);
-				if (atm.isValid == true) {
+				person.getAtm().userIdentification(userId, pin);
+				if (person.getAtm().isValid == true) {
 					while (operationContinue) { // While condition Starts here
 						System.out.println("\nAccount Holder name: " + person.getAccountHolderName());
 						System.out.println("Account  number: " + person.getBankAccountNo());
-						System.out.println("Total funds Avaliable: " + (atm.getCurrentBalance()));
+						System.out.println("Total funds Avaliable: " + (person.getCurrentBalance()));
 
 						System.out.println(
 								"\nChoose an operation:FOR deposit: D / withdraw: W / fund Transfer: FT / user Identification: UI");
@@ -45,38 +45,46 @@ public class Main {
 						case "D":
 							System.out.println("Enter money to deposit");
 							moneyDepositWithdrawTransfer = sc.nextDouble();
-							System.out.println("Balance is: " + atm.deposit(moneyDepositWithdrawTransfer));
+							System.out.println("Balance is: " + person.getAtm().deposit(moneyDepositWithdrawTransfer));
+
 							break;
 
 						case "W":
-
 							System.out.println("Enter money to withdraw");
 							moneyDepositWithdrawTransfer = sc.nextDouble();
-							atm.getDailyWithdrawLimit(moneyDepositWithdrawTransfer);
-							if (atm.isValid == true) {
-								atm.withdraw(moneyDepositWithdrawTransfer);
-								System.out.println("New Balance is: " + atm.withdraw(moneyDepositWithdrawTransfer));
-
-							} else if (atm.isValid == false) {
-								System.out.println("Withdrwal limit is: " + atm.getlimit());
+							person.getAtm().getDailyWithdrawLimit(moneyDepositWithdrawTransfer);
+							if (person.getAtm().isValid == true) {
+								person.getAtm().withdraw(moneyDepositWithdrawTransfer);
+								if (person.getAtm().isMoney == true) {
+									System.out.println("New Balance is: " + person.getAtm().withdraw(moneyDepositWithdrawTransfer));
+								} else if (person.getAtm().isMoney == false) {
+									break;
+								}
+							} else if (person.getAtm().isValid == false) {
+								System.out.println("Withdrwal limit is: " + person.getAtm().getlimit());
 							}
-
 							break;
 
 						case "FT":
-
+							System.out.println("Are you sure to transfer funds? Press: Y / N");
+							operation = sc.next();
+							System.out.println("how much to transfer");
+							moneyDepositWithdrawTransfer = sc.nextDouble();							
+							person.getAtm().fundTransfer(operation, moneyDepositWithdrawTransfer);
+							if(person.getAtm().isValid == true) {
+								System.out.println("Balance left: "+ person.getAtm().fundTransfer(operation, moneyDepositWithdrawTransfer));
+							} else if(person.getAtm().isValid == false){
+								break;
+							}
 							break;
 
 						case "UI":
-							// User ID for ATM is 8 digit CARD NUMBER
-							// Add pin for online transactions
 							System.out.println("Do you want to change Debit Card? Enter Y / N");
-							permisionGrant = sc.next();
-							if (permisionGrant.equals(change)) {
-								System.out.println("Enter new card num");
+							permisionGrant = sc.next();							
+							if (permisionGrant.equals(change)) {								
 								String newCardNum = sc.next();
-								atm.setcardNum(newCardNum);
-								System.out.println("New Card is: " + atm.getCardNum());
+								person.getAtm().setcardNum(newCardNum);
+								System.out.println("New Card is: " + person.getAtm().getCardNum());
 							} else if (permisionGrant.equals(noChange)) {
 								System.out.println("Card is not changed");
 								break;
@@ -96,7 +104,7 @@ public class Main {
 					} // While condition for ATM ends
 					break;
 				} else {
-					System.out.println(atm.userIdentification(userId, pin));
+					System.out.println(person.getAtm().userIdentification(userId, pin));
 					if (i == 2) {
 						System.out.println("Account locked");
 						break;
@@ -112,24 +120,35 @@ public class Main {
 				System.out.println(
 						"Enter password \nyou can use one: $/&/@ \nPassword must be more than or equals to 8 characters");
 				pin = sc.next();
-				onlineBanking.userIdentification(userId, pin);
-				if (onlineBanking.isOnlinePassValid == true) {
+				person.getOnlineBanking().userIdentification(userId, pin);
+				if (person.getOnlineBanking().isOnlinePassValid == true) {
 					while (operationContinue) {
 						System.out.println("Account Holder name: " + person.getAccountHolderName());
 						System.out.println("Account  number: " + person.getBankAccountNo());
+						System.out.println("Total funds Avaliable: " + (person.getCurrentBalance()));
+
 						System.out.println("Choose an operation:FOR fund Transfer: FT / money investment: MI");
 						subOperations = sc.next();
 						switch (subOperations) {
 						case "FT":
-							System.out.println("Still under maintenance :). Please use other services");
+							System.out.println("Are you sure to transfer funds? Press: Y / N");
+							operation = sc.next();
+							System.out.println("how much to transfer");
+							moneyDepositWithdrawTransfer = sc.nextDouble();							
+							person.getOnlineBanking().fundTransfer(operation, moneyDepositWithdrawTransfer);
+							if(person.getOnlineBanking().isValid == true) {
+								System.out.println("Balance left: "+ person.getOnlineBanking().fundTransfer(operation, moneyDepositWithdrawTransfer));
+							} else if(person.getOnlineBanking().isValid == false){
+								break;
+							}
 							break;
 
 						case "MI":
-							System.out.println("Current Interest rate: " + onlineBanking.getInterestRate());
+							System.out.println("Current Interest rate: " + person.getOnlineBanking().getInterestRate());
 							System.out.println("How much money to invest?");
 							moneyDepositWithdrawTransfer = sc.nextDouble();
 							System.out.println("After interest you will get: "
-									+ onlineBanking.investment(moneyDepositWithdrawTransfer));
+									+ person.getOnlineBanking().investment(moneyDepositWithdrawTransfer));
 							break;
 
 						default:
@@ -148,7 +167,7 @@ public class Main {
 					} // while operation ends
 					break;
 				} else {
-					System.out.println(onlineBanking.userIdentification(userId, pin));
+					System.out.println(person.getOnlineBanking().userIdentification(userId, pin));
 					if (j == 2) {
 						System.out.println("Account locked");
 						break;

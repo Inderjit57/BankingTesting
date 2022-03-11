@@ -4,7 +4,7 @@ public class Atm extends BankingRules implements StandardProcess {
 	
 	private String cardNum = "999000888"; // valid cardNum to compare string
 	private String transferFund;
-	public String permisionToTransfer = "yes";
+	public String permisionToTransfer = "Y";
 	public boolean isMoney;
 	boolean isValid;
 	private String validPassword = "123@$"; // valid password to compare string
@@ -19,7 +19,7 @@ public class Atm extends BankingRules implements StandardProcess {
 	}
 
 	@Override
-	public double deposit(double moneyDeposit) { // setter for total fund
+	public double deposit(double moneyDeposit) { // this method deposit the money in the total fund in Person class
 		setTotalFund(moneyDeposit);
 		return currentBalance;
 	}
@@ -29,7 +29,7 @@ public class Atm extends BankingRules implements StandardProcess {
 		if (moneyWithdraw < currentBalance) {
 			isMoney = true;
 			return currentBalance - moneyWithdraw;
-		} else if (moneyWithdraw > currentBalance) {
+		} else if (moneyWithdraw > currentBalance && currentBalance == 0) {
 			isMoney = false;
 			System.out.println("Not enough balance: " + currentBalance);
 		}
@@ -47,9 +47,15 @@ public class Atm extends BankingRules implements StandardProcess {
 	}
 
 	@Override
-	public String fundTransfer(String transferFund) { // in progress
+	public double fundTransfer(String transferFund , double amount) { // in progress
 		this.transferFund = transferFund;
-		return null;
+		if (permisionToTransfer.equalsIgnoreCase(transferFund)) {
+			isValid = true;
+			return currentBalance - amount;  
+		} else {
+			isValid = false;
+		}
+		return 0;
 	}
 
 	public double investment(double moneyInvest) { // service is only avaliable on Online banking

@@ -8,10 +8,23 @@ public class OnlineBanking extends BankingRules implements StandardProcess {
 	private String validOnlineUserId = "frenchVanilla";
 	private String validPasswordOnline = "12356@$";
 	boolean isOnlinePassValid;
+	boolean isValid;
+	private String transferFund;
+	public String permisionToTransfer = "Y";
+	
+	Person person;
 
-	public String fundTransfer(String transferFund) {
-		return null;
+	public double fundTransfer(String transferFund , double amount) {
+		this.transferFund = transferFund;
+		if (permisionToTransfer.equalsIgnoreCase(transferFund)) {
+			isValid = true;
+			return person.currentBalance - amount;  
+		} else {
+			isValid = false;
+		}
+		return 0;
 	}
+	
 
 	public double deposit(double moneyDeposit) {
 		//Service is avaliable in ATM

@@ -6,7 +6,7 @@ public interface StandardProcess {
 
 	public double withdraw(double moneyWithdraw);
 
-	public String fundTransfer(String transferFund);
+	public double fundTransfer(String transferFund, double amount);
 
 	public double investment(double moneyInvestment);
 
